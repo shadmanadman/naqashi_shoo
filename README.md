@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # naqashi_shoo
-A project for transform image style into painting using Tensorflow.
+A project for transform image style into painting using Tensorflow and editing photos using Photo Editor Library.
 
 <p dir='rtl' align='right'> 
  برنامه ای برای تبدیل تصویر به نقاشی با استفاده از کتابخانه تنسرفلو
