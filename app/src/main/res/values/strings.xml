@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">نقاشی‌شو</string>
+    <string name="camera_permission_rejected">اجازه دسترسی به دروبین داده نشد</string>
+    <string name="read_storage_permission_rejected">اجازه دسترسی به حافظه داده نشد</string>
+    <string name="image_saved_successfuly">تصویر با موفقیت ذخیره شد</string>
+    <string name="error_in_saving_image">مشکلی در ذخیره تصویر وجود دارد لطفا دوباره تلاش کنید</string>
+
+</resources>
