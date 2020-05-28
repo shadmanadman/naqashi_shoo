@@ -14,10 +14,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adman.shadman.naqashishoo.R
 import com.adman.shadman.naqashishoo.adapter.StyleRecyclerViewAdapter
 import com.adman.shadman.naqashishoo.databinding.ActivityMainBinding
+import com.adman.shadman.naqashishoo.databinding.MainBinding
 import com.adman.shadman.naqashishoo.ui.camera_fragment.CameraFragment
 import com.adman.shadman.naqashishoo.ui.details_transform.StyleTransformDetailsBottomSheet
 import com.adman.shadman.naqashishoo.utils.ImageUtils
@@ -34,6 +37,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.navigation.NavigationView
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -57,14 +61,14 @@ private val REQUIRED_PERMISSIONS =
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
-    OnListFragmentInteractionListener {
+    OnListFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
     private var listener: OnListFragmentInteractionListener? = null
     private lateinit var cameraFragment: CameraFragment
     private lateinit var viewModel: MLExecutionViewModel
     private var selectedImageFromGallery: File? = null
     private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: MainBinding
     private var lastSavedFile = ""
     private var selectedStyle: String = ""
     private var isRunningModel = false
@@ -82,13 +86,15 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = MainBinding.inflate(layoutInflater)
 
         makeStatusBarColorTransparent(this)
 
         setupStylesRecyclerView()
 
         setupCameraControls()
+
+        initDrawer()
 
         viewModel = ViewModelProvider(this)
             .get(MLExecutionViewModel::class.java)
@@ -102,7 +108,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             }
         )
 
-        binding.saveImage.setOnClickListener {
+        binding.activityMain.saveImage.setOnClickListener {
             saveImageSetup()
         }
 
@@ -111,15 +117,31 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             Log.d(TAG, "Executor created")
         }
 
-        binding.transformDetails.setOnClickListener {
+        binding.activityMain.transformDetails.setOnClickListener {
             StyleTransformDetailsBottomSheet.newInstance(styleTransformDetails)
                 .show(supportFragmentManager, "")
         }
 
         lastSavedFile = getLastTakenPicture()
-        setImageView(binding.resultImageview, lastSavedFile)
+        setImageView(binding.activityMain.resultImageview, lastSavedFile)
 
         setContentView(binding.root)
+    }
+
+    private fun initDrawer(){
+        setSupportActionBar(binding.activityMain.toolbar)
+        val toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.activityMain.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_sort_black_24dp)
+        binding.navView.setNavigationItemSelectedListener(this)
     }
 
     private fun saveImageSetup() { // بررسی دسترسی به حافظه
@@ -147,7 +169,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         listener = this
         val styles = ArrayList<String>()
         styles.addAll(assets.list("thumbnails")!!)
-        with(binding.stylesRecyclerview) {
+        with(binding.activityMain.stylesRecyclerview) {
             layoutManager =
                 LinearLayoutManager(MainActivity(), LinearLayoutManager.HORIZONTAL, false)
             adapter = StyleRecyclerViewAdapter(styles, context, listener)
@@ -181,18 +203,18 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         supportFragmentManager.beginTransaction()
             .replace(R.id.view_finder, cameraFragment)
             .commit()
-        binding.layoutCamera.visibility = View.VISIBLE
+        binding.activityMain.layoutCamera.visibility = View.VISIBLE
     }
 
     private fun setupCameraControls() {
         // تعیین دکمه گرفتن تصویر با دوربین
-        binding.captureButton.setOnClickListener {
+        binding.activityMain.captureButton.setOnClickListener {
             it.clearAnimation()
             cameraFragment.takePicture()
         }
 
         // چرخش دوربین
-        binding.toggleButton.setOnClickListener {
+        binding.activityMain.toggleButton.setOnClickListener {
             lensFacing = if (lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
                 CameraCharacteristics.LENS_FACING_FRONT
             } else {
@@ -232,11 +254,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         Log.d(TAG, msg)
 
         lastSavedFile = file.absolutePath
-        setImageView(binding.resultImageview, lastSavedFile)
+        setImageView(binding.activityMain.resultImageview, lastSavedFile)
         supportFragmentManager.beginTransaction()
             .remove(cameraFragment)
             .commit()
-        binding.layoutCamera.visibility = View.GONE
+        binding.activityMain.layoutCamera.visibility = View.GONE
 
     }
 
@@ -296,8 +318,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     // شروع فرآیند تبدیل تصویر
     private fun startRunningModel() {
         if (!isRunningModel && lastSavedFile.isNotEmpty() && selectedStyle.isNotEmpty()) {
-            binding.resultImageview.visibility = View.INVISIBLE
-            binding.progressBar.visibility = View.VISIBLE
+            binding.activityMain.resultImageview.visibility = View.INVISIBLE
+            binding.activityMain.progressBar.visibility = View.VISIBLE
             viewModel.onApplyStyle(
                 baseContext, lastSavedFile, selectedStyle, styleTransferModelExecutor,
                 inferenceThread
@@ -308,12 +330,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     }
 
     private fun updateUIWithResults(modelExecutionResult: ModelExecutionResult) {
-        binding.progressBar.visibility = View.INVISIBLE
-        binding.resultImageview.visibility = View.VISIBLE
-        setImageView(binding.resultImageview, modelExecutionResult.styledImage)
+        binding.activityMain.progressBar.visibility = View.INVISIBLE
+        binding.activityMain.resultImageview.visibility = View.VISIBLE
+        setImageView(binding.activityMain.resultImageview, modelExecutionResult.styledImage)
         styleTransformDetails = modelExecutionResult.executionLog
-        binding.saveImage.show()
-        binding.transformDetails.show()
+        binding.activityMain.saveImage.show()
+        binding.activityMain.transformDetails.show()
     }
 
     override fun onRequestPermissionsResult(
@@ -374,7 +396,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             if (requestCode == GALLERY_REQUEST_CODE) {
                 getImageFile(data?.data!!)
                 if (selectedImageFromGallery != null) {
-                    setImageView(binding.resultImageview, selectedImageFromGallery!!.absolutePath)
+                    setImageView(binding.activityMain.resultImageview, selectedImageFromGallery!!.absolutePath)
                     lastSavedFile = selectedImageFromGallery!!.absolutePath
                 }
             }
@@ -460,7 +482,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             supportFragmentManager.beginTransaction()
                 .remove(cameraFragment)
                 .commit()
-            binding.layoutCamera.visibility=View.GONE
+            binding.activityMain.layoutCamera.visibility=View.GONE
         }
         else
             super.onBackPressed()
@@ -505,8 +527,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         n = generator.nextInt(n)
         val fname = "image$n.png"
         val image = File(getDownloadDirPath(), fname)
-        binding.resultImageview.setDrawingCacheEnabled(true)
-        val bitmap: Bitmap = binding.resultImageview.getDrawingCache()
+        binding.activityMain.resultImageview.setDrawingCacheEnabled(true)
+        val bitmap: Bitmap = binding.activityMain.resultImageview.getDrawingCache()
         // Encode the file as a PNG image.
         val outStream: FileOutputStream
         try {
@@ -539,5 +561,9 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                 )
             )
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        TODO("Not yet implemented")
     }
 }

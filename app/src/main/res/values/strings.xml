@@ -4,5 +4,6 @@
     <string name="read_storage_permission_rejected">اجازه دسترسی به حافظه داده نشد</string>
     <string name="image_saved_successfuly">تصویر با موفقیت ذخیره شد</string>
     <string name="error_in_saving_image">مشکلی در ذخیره تصویر وجود دارد لطفا دوباره تلاش کنید</string>
-
+    <string name="navigation_drawer_open">باز کردن دراور</string>
+    <string name="navigation_drawer_close">بستن دراور</string>
 </resources>
