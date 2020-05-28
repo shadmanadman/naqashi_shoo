@@ -1,11 +1,10 @@
-package com.adman.shadman.naqashishoo.ui.details_transform
+package com.adman.shadman.naqashishoo.ui.style_transform.details_transform
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.adman.shadman.naqashishoo.databinding.ActivityMainBinding
 import com.adman.shadman.naqashishoo.databinding.BottomSheetStyleTransformDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

@@ -28,10 +28,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adman.shadman.naqashishoo.R
 import com.adman.shadman.naqashishoo.adapter.StyleRecyclerViewAdapter
-import com.adman.shadman.naqashishoo.databinding.ActivityMainBinding
 import com.adman.shadman.naqashishoo.databinding.MainBinding
-import com.adman.shadman.naqashishoo.ui.camera_fragment.CameraFragment
-import com.adman.shadman.naqashishoo.ui.details_transform.StyleTransformDetailsBottomSheet
+import com.adman.shadman.naqashishoo.ui.image_editore.ImageEditorActivity
+import com.adman.shadman.naqashishoo.ui.style_transform.camera_fragment.CameraFragment
+import com.adman.shadman.naqashishoo.ui.style_transform.details_transform.StyleTransformDetailsBottomSheet
 import com.adman.shadman.naqashishoo.utils.ImageUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
@@ -121,6 +121,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             StyleTransformDetailsBottomSheet.newInstance(styleTransformDetails)
                 .show(supportFragmentManager, "")
         }
+
+        binding.activityMain.infoImageButton.setOnClickListener {
+            ImageEditorActivity().start(this)
+        }
+
 
         lastSavedFile = getLastTakenPicture()
         setImageView(binding.activityMain.resultImageview, lastSavedFile)

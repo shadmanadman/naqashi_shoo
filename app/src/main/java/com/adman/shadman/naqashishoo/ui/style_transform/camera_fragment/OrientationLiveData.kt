@@ -1,4 +1,4 @@
-package com.adman.shadman.naqashishoo.ui.camera_fragment
+package com.adman.shadman.naqashishoo.ui.style_transform.camera_fragment
 
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics

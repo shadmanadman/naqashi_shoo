@@ -77,6 +77,8 @@ dependencies {
     // Calligraphy
     implementation "io.github.inflationx:calligraphy3:$version_calligraphy"
     implementation "io.github.inflationx:viewpump:$version_calligraphy_viewpump"
+    // photo editor
+    implementation 'ja.burhanrashid52:photoeditor:1.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

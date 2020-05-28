@@ -13,6 +13,7 @@ buildscript {
         version_calligraphy="3.1.1"
         version_calligraphy_viewpump="2.0.3"
         version_material = "1.2.0-alpha06"
+        version_photoeditor='1.0.0'
         ASSET_DIR = projectDir.toString() + '/src/main/assets'
     }
 
