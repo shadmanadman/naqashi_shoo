@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # naqashi_shoo
 A project for transform image style into painting using Tensorflow.
 
@@ -6,7 +8,7 @@ A project for transform image style into painting using Tensorflow.
 </p>
 
 <p dir='rtl' align='right'> 
-این برنامه یک یک اپلیکیشن ساده جهت تبدیل تصویر به نقاشی هست که با استفاده از کتابخانه تنسرفلو توسعه داده شده. 
+این برنامه یک اپلیکیشن ساده جهت تبدیل تصویر به نقاشی هست که با استفاده از کتابخانه تنسرفلو توسعه داده شده. 
 </p>
 
 <p dir='rtl' align='right'> 
