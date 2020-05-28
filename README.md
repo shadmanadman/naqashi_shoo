@@ -19,6 +19,7 @@ A project for transform image style into painting using Tensorflow.
 <p dir='rtl' align='right'> 
 <b>امکانات برنامه: 
  </b>
+ 
  - تبدیل تصویر به نقاشی با استفاده از یادگیری ماشین
  - نوشتن متن بر روی تصویر
  - اعمال فیلتر و افکت بر روی تصاویر
