@@ -77,7 +77,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         setContentView(R.layout.activity_image_editor)
         initViews()
         handleIntentImage(mPhotoEditorView!!.source)
-        mWonderFont = Typeface.createFromAsset(assets, "beyond_wonderland.ttf")
         mPropertiesBSFragment = PropertiesBSFragment()
         mEmojiBSFragment = EmojiBSFragment()
         mStickerBSFragment = StickerBSFragment()
@@ -108,7 +107,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     }
 
     fun start(context: Context) {
-        val starter = Intent(context, MainActivity::class.java)
+        val starter = Intent(context, EditImageActivity::class.java)
         starter.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(starter)
     }

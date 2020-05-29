@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.image_editore.ImageEditorActivity"></activity>
+        <activity android:name=".ui.image_editore.EditImageActivity"/>
         <activity android:name=".ui.main_activity.MainActivity" />
         <activity android:name=".ui.splash_screen.SplashScreenActivity">
             <intent-filter>
