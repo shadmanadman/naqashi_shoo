@@ -10,10 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.adman.shadman.naqashishoo.ui.image_editore.EditImageActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_image_editor.*
 
 
 open class BaseActivity : AppCompatActivity() {
+    var editImageActivity:EditImageActivity?=null
      var mProgressDialog: ProgressDialog? = null
     fun requestPermission(permission: String): Boolean {
         val isGranted =
@@ -64,12 +67,8 @@ open class BaseActivity : AppCompatActivity() {
     }
 
      fun showSnackbar(message: String) {
-        val view: View = findViewById(R.id.content)
-        if (view != null) {
-            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
+            Snackbar.make(EditImageActivity().rootView, message, Snackbar.LENGTH_SHORT).show()
+
     }
 
     companion object {

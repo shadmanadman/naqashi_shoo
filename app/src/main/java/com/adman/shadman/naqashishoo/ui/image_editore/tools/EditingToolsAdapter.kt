@@ -1,15 +1,17 @@
 package com.adman.shadman.naqashishoo.ui.image_editore.tools
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.adman.shadman.naqashishoo.R
 
 
-class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected) :
+class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected, private val mContext: Context) :
     RecyclerView.Adapter<EditingToolsAdapter.ViewHolder>() {
     private val mToolList: MutableList<ToolModel> =
         ArrayList()
@@ -67,32 +69,32 @@ class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected) :
     }
 
     init {
-        mToolList.add(ToolModel("Brush", R.drawable.ic_brush, ToolType.BRUSH))
-        mToolList.add(ToolModel("Text", R.drawable.ic_text, ToolType.TEXT))
+        mToolList.add(ToolModel(mContext.getString(R.string.label_brush), R.drawable.ic_brush, ToolType.BRUSH))
+        mToolList.add(ToolModel(mContext.getString(R.string.label_text), R.drawable.ic_text, ToolType.TEXT))
         mToolList.add(
             ToolModel(
-                "Eraser",
+                mContext.getString(R.string.label_eraser),
                 R.drawable.ic_eraser,
                 ToolType.ERASER
             )
         )
         mToolList.add(
             ToolModel(
-                "Filter",
+                mContext.getString(R.string.label_filter),
                 R.drawable.ic_photo_filter,
                 ToolType.FILTER
             )
         )
         mToolList.add(
             ToolModel(
-                "Emoji",
+                mContext.getString(R.string.label_emoji),
                 R.drawable.ic_insert_emoticon,
                 ToolType.EMOJI
             )
         )
         mToolList.add(
             ToolModel(
-                "Sticker",
+                mContext.getString(R.string.label_sticker),
                 R.drawable.ic_sticker,
                 ToolType.STICKER
             )

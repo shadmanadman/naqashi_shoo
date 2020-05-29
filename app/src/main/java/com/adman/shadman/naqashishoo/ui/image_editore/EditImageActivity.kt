@@ -39,6 +39,8 @@ import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter.OnItemSelected
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.ToolType
 import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditor.OnSaveListener
@@ -60,10 +62,10 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     private var mEmojiBSFragment: EmojiBSFragment? = null
     private var mStickerBSFragment: StickerBSFragment? = null
     private var mTxtCurrentTool: TextView? = null
-    private var mWonderFont: Typeface? = null
     private var mRvTools: RecyclerView? = null
     private var mRvFilters: RecyclerView? = null
-    private val mEditingToolsAdapter = EditingToolsAdapter(this)
+    private var mFloatingActionButtonClose:FloatingActionButton?=null
+    private var mEditingToolsAdapter :EditingToolsAdapter?=null
     private val mFilterViewAdapter = FilterViewAdapter(this)
     private var mRootView: ConstraintLayout? = null
     private val mConstraintSet = ConstraintSet()
@@ -125,6 +127,10 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         }
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
+    }
+
     private fun initViews() {
         val imgUndo: ImageView
         val imgRedo: ImageView
@@ -138,6 +144,8 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         mRvTools = findViewById(R.id.rvConstraintTools)
         mRvFilters = findViewById(R.id.rvFilterView)
         mRootView = findViewById(R.id.rootView)
+        mFloatingActionButtonClose=findViewById(R.id.back)
+        mFloatingActionButtonClose!!.setOnClickListener(this)
         imgUndo = findViewById(R.id.imgUndo)
         imgUndo.setOnClickListener(this)
         imgRedo = findViewById(R.id.imgRedo)
@@ -152,6 +160,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         imgClose.setOnClickListener(this)
         imgShare = findViewById(R.id.imgShare)
         imgShare.setOnClickListener(this)
+        mEditingToolsAdapter = EditingToolsAdapter(this,this)
     }
 
     override fun onEditTextChangeListener(
@@ -211,6 +220,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
             R.id.imgRedo -> mPhotoEditor!!.redo()
             R.id.imgSave -> saveImage()
             R.id.imgClose -> onBackPressed()
+            R.id.back->onBackPressed()
             R.id.imgShare -> shareImage()
             R.id.imgCamera -> {
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -221,7 +231,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                 intent.type = "image/*"
                 intent.action = Intent.ACTION_GET_CONTENT
                 startActivityForResult(
-                    Intent.createChooser(intent, "Select Picture"),
+                    Intent.createChooser(intent, getString(R.string.select_picture)),
                     PICK_REQUEST
                 )
             }
@@ -350,12 +360,12 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     private fun showSaveDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setMessage(getString(R.string.msg_save_image))
-        builder.setPositiveButton("Save",
-            DialogInterface.OnClickListener { dialog, which -> saveImage() })
-        builder.setNegativeButton("Cancel",
-            DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
-        builder.setNeutralButton("Discard",
-            DialogInterface.OnClickListener { dialog, which -> finish() })
+        builder.setPositiveButton(getString(R.string.save),
+            { dialog, which -> saveImage() })
+        builder.setNegativeButton(getString(R.string.cancel),
+            { dialog, which -> dialog.dismiss() })
+        builder.setNeutralButton(getString(R.string.discard),
+            { dialog, which -> finish() })
         builder.create().show()
     }
 

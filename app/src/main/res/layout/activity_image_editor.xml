@@ -5,7 +5,9 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.image_editore.ImageEditorActivity">
+    android:background="@color/edite_activity_background"
+    tools:context=".ui.image_editore.EditImageActivity">
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -17,63 +19,82 @@
         android:id="@+id/photoEditorView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:photo_src="@drawable/got_s" />
 
-    <ImageView
-        android:id="@+id/imgUndo"
-        android:layout_width="@dimen/top_tool_icon_width"
+    <LinearLayout
+        android:id="@+id/image_tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_undo"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintEnd_toStartOf="@+id/imgRedo" />
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/margin16"
+        android:layout_marginRight="@dimen/margin8"
+        android:layout_marginTop="@dimen/margin16"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imgRedo"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_redo"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="40dp" />
 
-    <ImageView
-        android:id="@+id/imgGallery"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_image_black_24dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/imgUndo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:src="@drawable/ic_undo" />
 
-    <ImageView
-        android:id="@+id/imgCamera"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_camera_alt_black_24dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintStart_toEndOf="@id/imgGallery" />
+        <ImageView
+            android:id="@+id/imgRedo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_redo" />
 
-    <ImageView
-        android:id="@+id/imgClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_close"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+        <ImageView
+            android:id="@+id/imgGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:tint="@color/white"
+            android:layout_weight="1"
+            android:src="@drawable/ic_image_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imgCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:tint="@color/white"
+            android:layout_weight="1"
+            android:src="@drawable/ic_camera_alt_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imgShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:tint="@color/white"
+            android:src="@drawable/ic_share_black_24dp" />
+    </LinearLayout>
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvConstraintTools"
@@ -101,39 +122,53 @@
         app:layout_constraintTop_toTopOf="@+id/rvConstraintTools"
         tools:listitem="@layout/row_filter_view" />
 
-    <TextView
-        android:id="@+id/txtCurrentTool"
-        android:layout_width="wrap_content"
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:singleLine="true"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
+        app:cardCornerRadius="20dp"
+        android:layout_marginLeft="@dimen/margin32"
+        android:layout_marginRight="@dimen/margin32"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+            <TextView
+                android:id="@+id/txtCurrentTool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/app_name"
+                android:textColor="@color/primaryLightColor"
+                android:layout_centerInParent="true" />
 
-    <ImageView
-        android:id="@+id/imgSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+            <ImageView
+                android:id="@+id/imgSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_marginEnd="@dimen/margin8"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_save_alt_24"
+                android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:id="@+id/imgShare"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_share_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/photoEditorView"
-        app:layout_constraintEnd_toStartOf="@+id/imgUndo"
-        app:layout_constraintStart_toEndOf="@+id/imgCamera" />
+            <ImageView
+                android:id="@+id/imgClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin8"
+                android:src="@drawable/ic_baseline_close_24"
+               />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
