@@ -1,19 +1,36 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# naqashi_shoo
-A project for transform image style into painting using Tensorflow.
+# Naqashi Shoo
+A project for transform image style into painting using Tensorflow and editing photos using Photo Editor Library.
 
 <p dir='rtl' align='right'> 
-برنامه ای برای تبدیل تصویر به نقاشی با استفاده از کتابخانه تنسرفلو
+ برنامه ای برای تبدیل تصویر به نقاشی با استفاده از کتابخانه تنسرفلو
 </p>
 
 <p dir='rtl' align='right'> 
-این برنامه یک اپلیکیشن ساده جهت تبدیل تصویر به نقاشی هست که با استفاده از کتابخانه تنسرفلو توسعه داده شده. 
+این برنامه یک اپلیکیشن ساده جهت تبدیل تصویر به نقاشی و ادیت تصاویر هست که با استفاده از کتابخانه تنسرفلو توسعه داده شده. 
 </p>
 
 <p dir='rtl' align='right'> 
 <b>در هر گونه استفاده و یا توسعه پروژه آزاد هستید 
  </b>
+</p>
+
+<p dir='rtl' align='right'> 
+<b>امکانات برنامه: 
+ </b>
+ </p>
+ <p dir='rtl' align='right'> 
+ - تبدیل تصویر به نقاشی با استفاده از یادگیری ماشین
+ </p>
+  <p dir='rtl' align='right'> 
+ - نوشتن متن بر روی تصویر
+ </p>
+  <p dir='rtl' align='right'> 
+ - اعمال فیلتر و افکت بر روی تصاویر
+ </p>
+  <p dir='rtl' align='right'> 
+ - اعمال ایموجی و استکیر بر روی تصاویر
 </p>
 
 
