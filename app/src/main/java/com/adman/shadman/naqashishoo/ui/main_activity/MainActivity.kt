@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adman.shadman.naqashishoo.R
 import com.adman.shadman.naqashishoo.adapter.StyleRecyclerViewAdapter
 import com.adman.shadman.naqashishoo.databinding.MainBinding
-import com.adman.shadman.naqashishoo.ui.image_editore.ImageEditorActivity
+import com.adman.shadman.naqashishoo.ui.image_editore.EditImageActivity
 import com.adman.shadman.naqashishoo.ui.style_transform.camera_fragment.CameraFragment
 import com.adman.shadman.naqashishoo.ui.style_transform.details_transform.StyleTransformDetailsBottomSheet
 import com.adman.shadman.naqashishoo.utils.ImageUtils
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         }
 
         binding.activityMain.infoImageButton.setOnClickListener {
-            ImageEditorActivity().start(this)
+            EditImageActivity().start(this)
         }
 
 
