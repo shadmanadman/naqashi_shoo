@@ -34,6 +34,7 @@ A project for transform image style into painting using Tensorflow and editing p
 </p>
 
 
+<img src="https://github.com/shadmanadman/naqashi_shoo/blob/master/screenshots/Screenshot%20from%202020-05-30%2012-09-36.png" height="400"><img src="https://github.com/shadmanadman/naqashi_shoo/blob/master/screenshots/Screenshot%20from%202020-05-30%2012-10-13.png" height="400"> <img src="https://github.com/shadmanadman/naqashi_shoo/blob/master/screenshots/Screenshot%20from%202020-05-30%2012-10-40.png" height="400"> <img src="https://github.com/shadmanadman/naqashi_shoo/blob/master/screenshots/Screenshot%20from%202020-05-30%2012-11-09.png" height="400">
 
 
 
