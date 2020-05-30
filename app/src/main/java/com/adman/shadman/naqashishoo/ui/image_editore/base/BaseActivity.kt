@@ -67,7 +67,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
      fun showSnackbar(message: String) {
-            Snackbar.make(EditImageActivity().rootView, message, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(this.rootView, message, Snackbar.LENGTH_SHORT).show()
 
     }
 

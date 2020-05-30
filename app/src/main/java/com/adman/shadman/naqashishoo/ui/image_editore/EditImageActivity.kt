@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -16,12 +17,17 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +46,7 @@ import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter.
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.ToolType
 import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
@@ -49,11 +56,12 @@ import ja.burhanrashid52.photoeditor.PhotoFilter
 import ja.burhanrashid52.photoeditor.SaveSettings
 import ja.burhanrashid52.photoeditor.TextStyleBuilder
 import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.activity_image_editor.*
 import java.io.File
 import java.io.IOException
 
 
-class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickListener,
+class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnClickListener,
     PropertiesBSFragment.Properties, EmojiListener,
     StickerListener, OnItemSelected, FilterListener {
     var mPhotoEditor: PhotoEditor? = null
@@ -70,6 +78,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     private var mRootView: ConstraintLayout? = null
     private val mConstraintSet = ConstraintSet()
     private var mIsFilterVisible = false
+    private var mProgressDialog: ProgressDialog? = null
 
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
@@ -240,7 +249,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
 
     private fun shareImage() {
         if (mSaveImageUri == null) {
-            BaseActivity().showSnackbar(getString(R.string.msg_save_image_to_share))
+            Toast.makeText(this,getString(R.string.msg_save_image_to_share),Toast.LENGTH_SHORT).show()
             return
         }
         val intent = Intent(Intent.ACTION_SEND)
@@ -260,10 +269,10 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     @SuppressLint("MissingPermission")
     private fun saveImage() {
         if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            BaseActivity().showLoading("Saving...")
+            showLoading(getString(R.string.saving_image))
             val sdPath =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    .absolutePath
+                    .absolutePath + File.separator + System.currentTimeMillis().toString() + ".png"
             val file = File(
                 sdPath,""
             )
@@ -278,21 +287,21 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                     saveSettings,
                     object : OnSaveListener {
                         override fun onSuccess(imagePath: String) {
-                            BaseActivity().hideLoading()
-                            BaseActivity().showSnackbar("Image Saved Successfully")
+                            hideLoading()
+                            showSnackbar(getString(R.string.image_saved_succesfuly))
                             mSaveImageUri = Uri.fromFile(File(imagePath))
                             mPhotoEditorView!!.source.setImageURI(mSaveImageUri)
                         }
 
                         override fun onFailure(exception: Exception) {
-                            BaseActivity().hideLoading()
-                            BaseActivity().showSnackbar("Failed to save Image")
+                            hideLoading()
+                            showSnackbar(getString(R.string.image_faild_to_save_please_try_agian))
                         }
                     })
             } catch (e: IOException) {
                 e.printStackTrace()
-                BaseActivity().hideLoading()
-                BaseActivity().showSnackbar(e.message!!)
+                hideLoading()
+                showSnackbar(e.message!!)
             }
         }
     }
@@ -348,14 +357,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         mTxtCurrentTool!!.setText(R.string.label_sticker)
     }
 
-    override fun isPermissionGranted(
-        isGranted: Boolean,
-        permission: String?
-    ) {
-        if (isGranted) {
-            saveImage()
-        }
-    }
 
     private fun showSaveDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -460,5 +461,44 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         const val FILE_PROVIDER_AUTHORITY = "com.burhanrashid52.photoeditor.fileprovider"
         private const val CAMERA_REQUEST = 52
         private const val PICK_REQUEST = 53
+    }
+
+    private fun showLoading(message: String) {
+        mProgressDialog = ProgressDialog(this)
+        mProgressDialog!!.setMessage(message)
+        mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        mProgressDialog!!.setCancelable(false)
+        mProgressDialog!!.show()
+    }
+
+    private fun makeFullScreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+    }
+
+    private fun hideLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog!!.dismiss()
+        }
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(this.rootView, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+
+    fun requestPermission(permission: String): Boolean {
+        val isGranted =
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+        if (!isGranted) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(permission),
+                BaseActivity.READ_WRITE_STORAGE
+            )
+        }
+        return isGranted
     }
 }

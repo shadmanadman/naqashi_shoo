@@ -24,7 +24,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:photo_src="@drawable/got_s" />
+        app:photo_src="@drawable/sample1" />
 
     <LinearLayout
         android:id="@+id/image_tools"
@@ -40,7 +40,7 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:src="@drawable/ic_round_arrow_back_ios_24"
             app:backgroundTint="@color/white"
             app:fabCustomSize="40dp" />
 

@@ -27,8 +27,6 @@ import com.adman.shadman.naqashishoo.adapter.ColorPickerAdapter.OnColorPickerCli
 class TextEditorDialogFragment : DialogFragment() {
     private var mAddTextEditText: EditText? = null
     private var mAddTextDoneTextView: TextView? = null
-    val EXTRA_INPUT_TEXT = "extra_input_text"
-    val EXTRA_COLOR_CODE = "extra_color_code"
     private var mInputMethodManager: InputMethodManager? = null
     private var mColorCode = 0
     private var mTextEditor: TextEditor? = null
@@ -106,8 +104,8 @@ class TextEditorDialogFragment : DialogFragment() {
 
     companion object {
         val TAG = TextEditorDialogFragment::class.java.simpleName
-        const val EXTRA_INPUT_TEXT = "extra_input_text"
-        const val EXTRA_COLOR_CODE = "extra_color_code"
+        const val EXTRA_INPUT_TEXT = "متن نمونه"
+        const val EXTRA_COLOR_CODE = "رنگ نمونه"
 
         //Show dialog with provide text and text color
         //Show dialog with default text input as empty and text color white

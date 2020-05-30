@@ -2,5 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/about"
-         android:title="درباره"/>
+         android:title="@string/about"
+        android:icon="@drawable/ic_twotone_info_24"/>
+    <item android:id="@+id/share"
+        android:title="@string/share_to_friands"
+        android:icon="@drawable/ic_twotone_share_24"/>
+    <item android:id="@+id/rate"
+        android:title="@string/rate_us"
+        android:icon="@drawable/ic_twotone_star_24"/>
 </menu>

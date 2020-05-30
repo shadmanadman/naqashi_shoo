@@ -145,9 +145,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         toggle.syncState()
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_sort_black_24dp)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_round_sort_24)
         binding.navView.setNavigationItemSelectedListener(this)
     }
+
+
 
     private fun saveImageSetup() { // بررسی دسترسی به حافظه
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED) {

@@ -18,10 +18,18 @@
     <string name="label_adjust">Adjust</string>
     <string name="msg_save_image">آیا قصد خارج شدن بدون ذخیره تصویر را دارید ?</string>
     <string name="app_intent_name">PhotoEditor</string>
-    <string name="msg_save_image_to_share">Please save image to share</string>
+    <string name="msg_save_image_to_share">لطفا اول تصویر را ذخیره کنید</string>
     <string name="msg_share_image">به اشتراک گذاری</string>
     <string name="select_picture">انتخاب تصویر</string>
     <string name="save">ذخیره</string>
     <string name="cancel">بیخیال</string>
-    <string name="discard">ذخیره نکن</string>>
+    <string name="discard">ذخیره نکن</string>
+    <string name="saving_image">ذخیره تصویر</string>
+    <string name="image_saved_succesfuly">تصویر با موفقیت ذخیره شد</string>
+    <string name="image_faild_to_save_please_try_agian">مشکل در ذخیره تصویر. لطفا دوباره سعی کنید</string>
+    <string name="done">تمام</string>
+    <string name="about">درباره</string>
+    <string name="share_to_friands">معرفی به دوستان</string>
+    <string name="rate_us">به ما امتیاز دهید</string>
+    >
 </resources>
