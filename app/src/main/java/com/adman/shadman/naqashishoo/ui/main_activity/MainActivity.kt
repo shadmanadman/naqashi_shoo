@@ -23,6 +23,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,6 +78,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     private val mainScope = MainScope()
     private var useGPU = false
     private var styleTransformDetails: String = ""
+
+
 
     fun start(context: Context) {
         val starter = Intent(context, MainActivity::class.java)
@@ -148,6 +151,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_round_sort_24)
         binding.navView.setNavigationItemSelectedListener(this)
     }
+
 
 
 
@@ -571,6 +575,13 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        val id=item.itemId
+        when(id){
+            R.id.about->{}
+            R.id.share->{}
+            R.id.rate->{}
+        }
+        return true
     }
 }
