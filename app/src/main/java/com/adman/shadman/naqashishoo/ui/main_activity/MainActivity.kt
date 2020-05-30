@@ -2,6 +2,8 @@ package com.adman.shadman.naqashishoo.ui.main_activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -30,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adman.shadman.naqashishoo.R
 import com.adman.shadman.naqashishoo.adapter.StyleRecyclerViewAdapter
 import com.adman.shadman.naqashishoo.databinding.MainBinding
+import com.adman.shadman.naqashishoo.ui.about.AboutBottomSheetFragment
 import com.adman.shadman.naqashishoo.ui.image_editore.EditImageActivity
 import com.adman.shadman.naqashishoo.ui.style_transform.camera_fragment.CameraFragment
 import com.adman.shadman.naqashishoo.ui.style_transform.details_transform.StyleTransformDetailsBottomSheet
@@ -414,6 +417,23 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         }
     }
 
+    val shareApp: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, "برنامه نقاشی‌شو برای تبدیل تصویر به نقاشی و ویرایش تصاویر \n https://cafebazaar.ir/app/?id=com.adman.shadman.naqashishoo")
+        type = "text/plain"
+
+    }
+
+    val rateUs:Intent=Intent().apply {
+        try {
+            action=Intent.ACTION_EDIT
+            setData(Uri.parse("bazaar://details?id=" + "com.adman.shadman.naqashishoo"))
+            setPackage("com.farsitel.bazaar")
+        }catch (e:ActivityNotFoundException){
+            Toast.makeText(this@MainActivity.applicationContext,getString(R.string.cafebazaar_not_installed),Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
     // انتخاب تصویر از گالری
     private fun showFileChooser() {
@@ -578,9 +598,15 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         val id=item.itemId
         when(id){
-            R.id.about->{}
-            R.id.share->{}
-            R.id.rate->{}
+            R.id.about->{AboutBottomSheetFragment().newInstance().show(supportFragmentManager,"about")}
+            R.id.share->{startActivity(shareApp)}
+            R.id.rate->{
+                try {
+                    startActivity(rateUs)
+                }catch (e:ActivityNotFoundException){
+                    Toast.makeText(this@MainActivity.applicationContext,getString(R.string.cafebazaar_not_installed),Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         return true
     }

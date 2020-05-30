@@ -266,6 +266,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         )
     }
 
+
     @SuppressLint("MissingPermission")
     private fun saveImage() {
         if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

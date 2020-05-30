@@ -31,5 +31,9 @@
     <string name="about">درباره</string>
     <string name="share_to_friands">معرفی به دوستان</string>
     <string name="rate_us">به ما امتیاز دهید</string>
+    <string name="about_text">نقاشی‌شو یک اپلیکیشن برای تبدیل تصویر به نقاشی و ویرایش تصاویر هست. در این برنامه برای تبدیل تصویر به نقاشی از کتابخانه TensorFlow استفاده شده.</string>
+    <string name="if_you_are_developer_be_free_to_lookout_source">اگر توسعه دهنده هستید خوشحال می‌شویم سری به سورس برنامه بزنید:</string>
+    <string name="github">سورس برنامه در گیت‌هاب</string>
+    <string name="cafebazaar_not_installed">برنامه کافه بازار ب روری دستگاه شما نصب نیست</string>
     >
 </resources>
