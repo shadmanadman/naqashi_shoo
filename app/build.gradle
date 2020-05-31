@@ -62,8 +62,9 @@ dependencies {
     // view model and live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation 'com.google.android.gms:play-services-ads:18.3.0'
     kapt "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    // google ads
+    implementation "com.google.android.gms:play-services-ads:$version_google_ads"
     // recyclerview
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     // glide

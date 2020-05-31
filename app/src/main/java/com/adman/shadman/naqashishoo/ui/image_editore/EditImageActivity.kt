@@ -46,6 +46,7 @@ import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter.OnItemSelected
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.ToolType
 import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
+import com.adman.shadman.naqashishoo.utils.NetworkConnectionChecker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -181,6 +182,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
     }
 
     private fun requestAd() {
+        if (NetworkConnectionChecker(this).isConnected())
         TapsellPlus.requestInterstitial(
             this,
             ZONE_ID_NATIVE,
@@ -192,6 +194,11 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
                 override fun error(message: String?) {
                 }
             })
+        else{
+            hideLoading()
+            showSnackbar(getString(R.string.image_saved_succesfuly))
+        }
+
     }
 
     private fun showAd() {
