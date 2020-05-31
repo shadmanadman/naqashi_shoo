@@ -6,11 +6,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -45,7 +43,6 @@ import com.adman.shadman.naqashishoo.ui.image_editore.filters.FilterViewAdapter
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.EditingToolsAdapter.OnItemSelected
 import com.adman.shadman.naqashishoo.ui.image_editore.tools.ToolType
-import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
 import com.adman.shadman.naqashishoo.utils.NetworkConnectionChecker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -54,19 +51,13 @@ import ir.tapsell.plus.AdHolder
 import ir.tapsell.plus.AdRequestCallback
 import ir.tapsell.plus.AdShowListener
 import ir.tapsell.plus.TapsellPlus
-import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
-import ja.burhanrashid52.photoeditor.PhotoEditor
+import ja.burhanrashid52.photoeditor.*
 import ja.burhanrashid52.photoeditor.PhotoEditor.OnSaveListener
-import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.PhotoFilter
-import ja.burhanrashid52.photoeditor.SaveSettings
-import ja.burhanrashid52.photoeditor.TextStyleBuilder
-import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.activity_image_editor.*
 import java.io.File
 import java.io.IOException
 
-private const val ZONE_ID_NATIVE="5ed3686fa6c1cf0001fc1b3f"
+private const val ZONE_ID_NATIVE = "5ed3686fa6c1cf0001fc1b3f"
 
 class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnClickListener,
     PropertiesBSFragment.Properties, EmojiListener,
@@ -79,14 +70,14 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
     private var mTxtCurrentTool: TextView? = null
     private var mRvTools: RecyclerView? = null
     private var mRvFilters: RecyclerView? = null
-    private var mFloatingActionButtonClose:FloatingActionButton?=null
-    private var mEditingToolsAdapter :EditingToolsAdapter?=null
+    private var mFloatingActionButtonClose: FloatingActionButton? = null
+    private var mEditingToolsAdapter: EditingToolsAdapter? = null
     private val mFilterViewAdapter = FilterViewAdapter(this)
     private var mRootView: ConstraintLayout? = null
     private val mConstraintSet = ConstraintSet()
     private var mIsFilterVisible = false
     private var mProgressDialog: ProgressDialog? = null
-    private var adContainer:FrameLayout?=null
+    private var adContainer: FrameLayout? = null
 
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
@@ -161,8 +152,8 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         mRvTools = findViewById(R.id.rvConstraintTools)
         mRvFilters = findViewById(R.id.rvFilterView)
         mRootView = findViewById(R.id.rootView)
-        adContainer=findViewById(R.id.adContainer)
-        mFloatingActionButtonClose=findViewById(R.id.back)
+        adContainer = findViewById(R.id.adContainer)
+        mFloatingActionButtonClose = findViewById(R.id.back)
         mFloatingActionButtonClose!!.setOnClickListener(this)
         imgUndo = findViewById(R.id.imgUndo)
         imgUndo.setOnClickListener(this)
@@ -178,23 +169,23 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         imgClose.setOnClickListener(this)
         imgShare = findViewById(R.id.imgShare)
         imgShare.setOnClickListener(this)
-        mEditingToolsAdapter = EditingToolsAdapter(this,this)
+        mEditingToolsAdapter = EditingToolsAdapter(this, this)
     }
 
     private fun requestAd() {
         if (NetworkConnectionChecker(this).isConnected())
-        TapsellPlus.requestInterstitial(
-            this,
-            ZONE_ID_NATIVE,
-            object : AdRequestCallback() {
-                override fun response() {
-                    showAd()
-                }
+            TapsellPlus.requestInterstitial(
+                this,
+                ZONE_ID_NATIVE,
+                object : AdRequestCallback() {
+                    override fun response() {
+                        showAd()
+                    }
 
-                override fun error(message: String?) {
-                }
-            })
-        else{
+                    override fun error(message: String?) {
+                    }
+                })
+        else {
             hideLoading()
             showSnackbar(getString(R.string.image_saved_succesfuly))
         }
@@ -276,12 +267,12 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
     }
 
     override fun onClick(view: View) {
-        when (view.getId()) {
+        when (view.id) {
             R.id.imgUndo -> mPhotoEditor!!.undo()
             R.id.imgRedo -> mPhotoEditor!!.redo()
             R.id.imgSave -> saveImage()
             R.id.imgClose -> onBackPressed()
-            R.id.back->onBackPressed()
+            R.id.back -> onBackPressed()
             R.id.imgShare -> shareImage()
             R.id.imgCamera -> {
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -301,7 +292,8 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
 
     private fun shareImage() {
         if (mSaveImageUri == null) {
-            Toast.makeText(this,getString(R.string.msg_save_image_to_share),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.msg_save_image_to_share), Toast.LENGTH_SHORT)
+                .show()
             return
         }
         val intent = Intent(Intent.ACTION_SEND)
@@ -314,7 +306,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         return FileProvider.getUriForFile(
             this,
             FILE_PROVIDER_AUTHORITY,
-            File(uri.getPath())
+            File(uri.path)
         )
     }
 
@@ -327,7 +319,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                     .absolutePath + File.separator + System.currentTimeMillis().toString() + ".png"
             val file = File(
-                sdPath,""
+                sdPath, ""
             )
             try {
                 file.createNewFile()
@@ -336,7 +328,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
                     .setTransparencyEnabled(true)
                     .build()
                 mPhotoEditor!!.saveAsFile(
-                    file.getAbsolutePath(),
+                    file.absolutePath,
                     saveSettings,
                     object : OnSaveListener {
                         override fun onSuccess(imagePath: String) {
@@ -491,8 +483,8 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
             mConstraintSet.clear(mRvFilters!!.id, ConstraintSet.END)
         }
         val changeBounds = ChangeBounds()
-        changeBounds.setDuration(350)
-        changeBounds.setInterpolator(AnticipateOvershootInterpolator(1.0f))
+        changeBounds.duration = 350
+        changeBounds.interpolator = AnticipateOvershootInterpolator(1.0f)
         TransitionManager.beginDelayedTransition(mRootView!!, changeBounds)
         mConstraintSet.applyTo(mRootView)
     }
@@ -510,7 +502,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
 
     companion object {
         private val TAG = EditImageActivity::class.java.simpleName
-        const val FILE_PROVIDER_AUTHORITY = "com.burhanrashid52.photoeditor.fileprovider"
+        const val FILE_PROVIDER_AUTHORITY = "com.adman.shadman.naqashishoo.provider"
         private const val CAMERA_REQUEST = 52
         private const val PICK_REQUEST = 53
     }

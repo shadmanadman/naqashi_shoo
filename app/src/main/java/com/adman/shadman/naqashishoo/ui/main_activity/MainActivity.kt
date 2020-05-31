@@ -66,8 +66,9 @@ private val REQUIRED_PERMISSIONS =
     arrayOf(Manifest.permission.CAMERA)
 
 private const val TAG = "MainActivity"
-private const val TAPSELL_KEY="nmkambjlibmrllmreqtqhanigqqjdmjahagobjajnfsknledogohesnjlsfokicqksftqn"
-private const val ZONE_ID_NATIVE="5ed35dc9a6c1cf0001fc1b3b"
+private const val TAPSELL_KEY =
+    "nmkambjlibmrllmreqtqhanigqqjdmjahagobjajnfsknledogohesnjlsfokicqksftqn"
+private const val ZONE_ID_NATIVE = "5ed35dc9a6c1cf0001fc1b3b"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     OnListFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
@@ -86,8 +87,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     private val mainScope = MainScope()
     private var useGPU = false
     private var styleTransformDetails: String = ""
-    private var styleChangeCount=0
-
+    private var styleChangeCount = 0
 
 
     fun start(context: Context) {
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainBinding.inflate(layoutInflater)
-        TapsellPlus.initialize(this, TAPSELL_KEY);
+        TapsellPlus.initialize(this, TAPSELL_KEY)
         makeStatusBarColorTransparent(this)
 
         setupStylesRecyclerView()
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         setContentView(binding.root)
     }
 
-    private fun initDrawer(){
+    private fun initDrawer() {
         setSupportActionBar(binding.activityMain.toolbar)
         val toggle = ActionBarDrawerToggle(
             this, binding.drawerLayout, binding.activityMain.toolbar,
@@ -196,12 +196,16 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
 
     private fun saveImageSetup() { // بررسی دسترسی به حافظه
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             saveImage()
-        }else{
+        } else {
             ActivityCompat.requestPermissions(
                 this,
-               arrayOf( Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 WRITE_EXTERNAL_STORAGE
             )
         }
@@ -351,7 +355,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     override fun onListFragmentInteraction(item: String) {
         selectedStyle = item
         if (selectedStyle == "style1.jpg") {
-            if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 addCameraFragment()
             } else {
                 ActivityCompat.requestPermissions(
@@ -368,9 +376,9 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
     // شروع فرآیند تبدیل تصویر
     private fun startRunningModel() {
-        if (styleChangeCount>=4){
+        if (styleChangeCount >= 4) {
             requestAd()
-            styleChangeCount=0
+            styleChangeCount = 0
         }
         if (!isRunningModel && lastSavedFile.isNotEmpty() && selectedStyle.isNotEmpty()) {
             styleChangeCount++
@@ -381,7 +389,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                 inferenceThread
             )
         } else {
-            Toast.makeText(this, getString(R.string.previes_model_still_running), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.previes_model_still_running),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -402,7 +414,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_CODE_PERMISSIONS -> {
-                if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CAMERA
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     addCameraFragment()
                 } else {
                     Toast.makeText(
@@ -432,10 +448,14 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                 }
             }
 
-            WRITE_EXTERNAL_STORAGE->{
-                if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+            WRITE_EXTERNAL_STORAGE -> {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     saveImage()
-                }else{
+                } else {
                     Toast.makeText(
                         this,
                         getString(R.string.read_storage_permission_rejected),
@@ -452,7 +472,10 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             if (requestCode == GALLERY_REQUEST_CODE) {
                 getImageFile(data?.data!!)
                 if (selectedImageFromGallery != null) {
-                    setImageView(binding.activityMain.resultImageview, selectedImageFromGallery!!.absolutePath)
+                    setImageView(
+                        binding.activityMain.resultImageview,
+                        selectedImageFromGallery!!.absolutePath
+                    )
                     lastSavedFile = selectedImageFromGallery!!.absolutePath
                 }
             }
@@ -461,18 +484,25 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
     val shareApp: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, "برنامه نقاشی‌شو برای تبدیل تصویر به نقاشی و ویرایش تصاویر \n https://cafebazaar.ir/app/?id=com.adman.shadman.naqashishoo")
+        putExtra(
+            Intent.EXTRA_TEXT,
+            "برنامه نقاشی‌شو برای تبدیل تصویر به نقاشی و ویرایش تصاویر \n https://cafebazaar.ir/app/?id=com.adman.shadman.naqashishoo"
+        )
         type = "text/plain"
 
     }
 
-    val rateUs:Intent=Intent().apply {
+    val rateUs: Intent = Intent().apply {
         try {
-            action=Intent.ACTION_EDIT
-            setData(Uri.parse("bazaar://details?id=" + "com.adman.shadman.naqashishoo"))
+            action = Intent.ACTION_EDIT
+            data = Uri.parse("bazaar://details?id=" + "com.adman.shadman.naqashishoo")
             setPackage("com.farsitel.bazaar")
-        }catch (e:ActivityNotFoundException){
-            Toast.makeText(this@MainActivity.applicationContext,getString(R.string.cafebazaar_not_installed),Toast.LENGTH_SHORT).show()
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(
+                this@MainActivity.applicationContext,
+                getString(R.string.cafebazaar_not_installed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
@@ -555,9 +585,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             supportFragmentManager.beginTransaction()
                 .remove(cameraFragment)
                 .commit()
-            binding.activityMain.layoutCamera.visibility=View.GONE
-        }
-        else
+            binding.activityMain.layoutCamera.visibility = View.GONE
+        } else
             super.onBackPressed()
 
     }
@@ -572,7 +601,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                         .absolutePath
                 val file = File(sdPath, "")
                 if (!file.exists()) {
-                    file.mkdirs();
+                    file.mkdirs()
                     storageDir = file.absolutePath
                 } else if (file.exists()) {
                     storageDir = file.absolutePath
@@ -594,14 +623,14 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     ذخیره تصویر
      */
     fun saveImage() {
-        var success =false
+        var success = false
         val generator = Random()
         var n = 10000
         n = generator.nextInt(n)
         val fname = "image$n.png"
         val image = File(getDownloadDirPath(), fname)
-        binding.activityMain.resultImageview.setDrawingCacheEnabled(true)
-        val bitmap: Bitmap = binding.activityMain.resultImageview.getDrawingCache()
+        binding.activityMain.resultImageview.isDrawingCacheEnabled = true
+        val bitmap: Bitmap = binding.activityMain.resultImageview.drawingCache
         // Encode the file as a PNG image.
         val outStream: FileOutputStream
         try {
@@ -616,7 +645,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
             e.printStackTrace()
         }
         if (success) {
-            Toast.makeText(applicationContext, R.string.image_saved_successfuly, Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, R.string.image_saved_successfuly, Toast.LENGTH_LONG)
+                .show()
         } else {
             Toast.makeText(applicationContext, R.string.error_in_saving_image, Toast.LENGTH_LONG)
                 .show()
@@ -638,15 +668,23 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         binding.drawerLayout.closeDrawer(GravityCompat.START)
-        val id=item.itemId
-        when(id){
-            R.id.about->{AboutBottomSheetFragment().newInstance().show(supportFragmentManager,"about")}
-            R.id.share->{startActivity(shareApp)}
-            R.id.rate->{
+        val id = item.itemId
+        when (id) {
+            R.id.about -> {
+                AboutBottomSheetFragment().newInstance().show(supportFragmentManager, "about")
+            }
+            R.id.share -> {
+                startActivity(shareApp)
+            }
+            R.id.rate -> {
                 try {
                     startActivity(rateUs)
-                }catch (e:ActivityNotFoundException){
-                    Toast.makeText(this@MainActivity.applicationContext,getString(R.string.cafebazaar_not_installed),Toast.LENGTH_SHORT).show()
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(
+                        this@MainActivity.applicationContext,
+                        getString(R.string.cafebazaar_not_installed),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

@@ -1,11 +1,11 @@
 package com.adman.shadman.naqashishoo.ui.splash_screen
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.adman.shadman.naqashishoo.databinding.ActivitySplashScreenBinding
+import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -27,7 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
         }, _delayForSplashScreen)
     }
 
-    override protected fun attachBaseContext(newBase: Context?) {
+    override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
     }
 }

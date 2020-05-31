@@ -47,21 +47,22 @@ class StickerBSFragment : BottomSheetDialogFragment() {
             View.inflate(context, R.layout.fragment_bottom_sticker_emoji_dialog, null)
         dialog.setContentView(contentView)
         val params =
-            (contentView.getParent() as View).getLayoutParams() as CoordinatorLayout.LayoutParams
+            (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior
         if (behavior != null && behavior is BottomSheetBehavior<*>) {
             behavior.setBottomSheetCallback(mBottomSheetBehaviorCallback)
         }
-        (contentView.getParent() as View).setBackgroundColor(ContextCompat.getColor(context!!,android.R.color.transparent))
+        (contentView.parent as View).setBackgroundColor(
+            ContextCompat.getColor(
+                context!!,
+                android.R.color.transparent
+            )
+        )
         val rvEmoji: RecyclerView = contentView.findViewById(R.id.rvEmoji)
         val gridLayoutManager = GridLayoutManager(activity, 3)
         rvEmoji.layoutManager = gridLayoutManager
         val stickerAdapter = StickerAdapter()
         rvEmoji.adapter = stickerAdapter
-    }
-
-    override fun onViewCreated(view: View, @Nullable savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     inner class StickerAdapter :
@@ -93,16 +94,16 @@ class StickerBSFragment : BottomSheetDialogFragment() {
 
             init {
                 imgSticker = itemView.findViewById(R.id.imgSticker)
-                itemView.setOnClickListener{
-                        if (mStickerListener != null) {
-                            mStickerListener!!.onStickerClick(
-                                BitmapFactory.decodeResource(
-                                    resources,
-                                    stickerList[layoutPosition]
-                                )
+                itemView.setOnClickListener {
+                    if (mStickerListener != null) {
+                        mStickerListener!!.onStickerClick(
+                            BitmapFactory.decodeResource(
+                                resources,
+                                stickerList[layoutPosition]
                             )
-                        }
-                        dismiss()
+                        )
+                    }
+                    dismiss()
                 }
             }
         }

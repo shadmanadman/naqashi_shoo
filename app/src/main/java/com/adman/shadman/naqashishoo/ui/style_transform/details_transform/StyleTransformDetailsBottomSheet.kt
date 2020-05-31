@@ -11,28 +11,30 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 private const val ARG_PARAM1 = "param1"
 
-class StyleTransformDetailsBottomSheet :BottomSheetDialogFragment(){
+class StyleTransformDetailsBottomSheet : BottomSheetDialogFragment() {
 
-    companion object{
-        fun newInstance(details:String):StyleTransformDetailsBottomSheet=StyleTransformDetailsBottomSheet().apply {
-            arguments=Bundle().apply {
-                putString(ARG_PARAM1,details)
+    companion object {
+        fun newInstance(details: String): StyleTransformDetailsBottomSheet =
+            StyleTransformDetailsBottomSheet().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, details)
+                }
             }
-        }
-        private lateinit var details:String
+
+        private lateinit var details: String
         private lateinit var mContext: Context
         private lateinit var binding: BottomSheetStyleTransformDetailsBinding
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mContext=context
+        mContext = context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let {
-            details=it!!.getString(ARG_PARAM1,"")
+            details = it!!.getString(ARG_PARAM1, "")
         }
     }
 
@@ -41,8 +43,8 @@ class StyleTransformDetailsBottomSheet :BottomSheetDialogFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=BottomSheetStyleTransformDetailsBinding.inflate(layoutInflater)
-        binding.styleTransformDetail.text= details
+        binding = BottomSheetStyleTransformDetailsBinding.inflate(layoutInflater)
+        binding.styleTransformDetail.text = details
         return binding.root
     }
 }

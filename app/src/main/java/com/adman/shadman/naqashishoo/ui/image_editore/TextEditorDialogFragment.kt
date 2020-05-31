@@ -37,13 +37,13 @@ class TextEditorDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val dialog: Dialog = getDialog()!!
+        val dialog: Dialog = dialog!!
         //Make dialog full screen with transparent background
         if (dialog != null) {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.getWindow()!!.setLayout(width, height)
-            dialog.getWindow()!!
+            dialog.window!!.setLayout(width, height)
+            dialog.window!!
                 .setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
@@ -68,7 +68,7 @@ class TextEditorDialogFragment : DialogFragment() {
         val addTextColorPickerRecyclerView: RecyclerView =
             view.findViewById(R.id.add_text_color_picker_recycler_view)
         val layoutManager =
-            LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         addTextColorPickerRecyclerView.layoutManager = layoutManager
         addTextColorPickerRecyclerView.setHasFixedSize(true)
         val colorPickerAdapter = ColorPickerAdapter(context!!)
@@ -81,18 +81,18 @@ class TextEditorDialogFragment : DialogFragment() {
         })
         addTextColorPickerRecyclerView.adapter = colorPickerAdapter
         mAddTextEditText!!.setText(EXTRA_INPUT_TEXT)
-        mColorCode = getArguments()!!.getInt(EXTRA_COLOR_CODE)
+        mColorCode = arguments!!.getInt(EXTRA_COLOR_CODE)
         mAddTextEditText!!.setTextColor(mColorCode)
         mInputMethodManager!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 
         //Make a callback on activity when user is done with text editing
-        mAddTextDoneTextView!!.setOnClickListener{
-                mInputMethodManager!!.hideSoftInputFromWindow(view.getWindowToken(), 0)
-                dismiss()
-                val inputText = mAddTextEditText!!.text.toString()
-                if (!TextUtils.isEmpty(inputText) && mTextEditor != null) {
-                    mTextEditor!!.onDone(inputText, mColorCode)
-                }
+        mAddTextDoneTextView!!.setOnClickListener {
+            mInputMethodManager!!.hideSoftInputFromWindow(view.windowToken, 0)
+            dismiss()
+            val inputText = mAddTextEditText!!.text.toString()
+            if (!TextUtils.isEmpty(inputText) && mTextEditor != null) {
+                mTextEditor!!.onDone(inputText, mColorCode)
+            }
 
         }
     }
@@ -120,7 +120,7 @@ class TextEditorDialogFragment : DialogFragment() {
             args.putString(EXTRA_INPUT_TEXT, inputText)
             args.putInt(EXTRA_COLOR_CODE, colorCode)
             val fragment = TextEditorDialogFragment()
-            fragment.setArguments(args)
+            fragment.arguments = args
             fragment.show(
                 appCompatActivity.supportFragmentManager,
                 TAG

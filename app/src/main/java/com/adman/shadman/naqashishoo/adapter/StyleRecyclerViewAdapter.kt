@@ -1,6 +1,5 @@
 package com.adman.shadman.naqashishoo.adapter
 
-import android.app.ActionBar
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
 import com.adman.shadman.naqashishoo.R
 import com.adman.shadman.naqashishoo.ui.main_activity.OnListFragmentInteractionListener
 import com.bumptech.glide.Glide
@@ -41,21 +39,20 @@ class StyleRecyclerViewAdapter(
         val imagePath = styles[position]
 
         if (position == 0) {
-            holder.imageView.layoutParams.width=150
-            holder.imageView.layoutParams.height=150
+            holder.imageView.layoutParams.width = 150
+            holder.imageView.layoutParams.height = 150
             Glide.with(context)
                 .load(R.drawable.ic_gallery)
                 .into(holder.imageView)
-        }
-        else if ( position == 1) {
-            holder.imageView.layoutParams.width=150
-            holder.imageView.layoutParams.height=150
+        } else if (position == 1) {
+            holder.imageView.layoutParams.width = 150
+            holder.imageView.layoutParams.height = 150
             Glide.with(context)
                 .load(R.drawable.ic_camera)
                 .into(holder.imageView)
-        }else {
-            holder.imageView.layoutParams.width= LinearLayout.LayoutParams.MATCH_PARENT
-            holder.imageView.layoutParams.height=LinearLayout.LayoutParams.MATCH_PARENT
+        } else {
+            holder.imageView.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
+            holder.imageView.layoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT
             Glide.with(context)
                 .load(Uri.parse("file:///android_asset/thumbnails/$imagePath"))
                 .centerInside()

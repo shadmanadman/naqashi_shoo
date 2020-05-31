@@ -1,22 +1,20 @@
 package com.adman.shadman.naqashishoo.adapter
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.adman.shadman.naqashishoo.R
-
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*
 
 
 class ColorPickerAdapter(
@@ -48,7 +46,7 @@ class ColorPickerAdapter(
     }
 
     private fun buildColorPickerView(view: View, colorCode: Int) {
-        view.setVisibility(View.VISIBLE)
+        view.visibility = View.VISIBLE
         val biggerCircle = ShapeDrawable(OvalShape())
         biggerCircle.intrinsicHeight = 20
         biggerCircle.intrinsicWidth = 20
@@ -75,10 +73,10 @@ class ColorPickerAdapter(
 
         init {
             colorPickerView = itemView.findViewById(R.id.color_picker_view)
-            itemView.setOnClickListener{
-                    if (onColorPickerClickListener != null) onColorPickerClickListener!!.onColorPickerClickListener(
-                        colorPickerColors[adapterPosition]
-                    )
+            itemView.setOnClickListener {
+                if (onColorPickerClickListener != null) onColorPickerClickListener!!.onColorPickerClickListener(
+                    colorPickerColors[adapterPosition]
+                )
             }
         }
     }

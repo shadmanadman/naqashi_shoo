@@ -38,7 +38,7 @@ class FilterViewAdapter(private val mFilterListener: FilterListener) :
         val (first, second) = mPairList[position]
         val fromAsset = getBitmapFromAsset(holder.itemView.context, first)
         holder.mImageFilterView.setImageBitmap(fromAsset)
-        holder.mTxtFilterName.setText(second.name.replace("_", " "))
+        holder.mTxtFilterName.text = second.name.replace("_", " ")
     }
 
     override fun getItemCount(): Int {
@@ -53,15 +53,15 @@ class FilterViewAdapter(private val mFilterListener: FilterListener) :
         init {
             mImageFilterView = itemView.findViewById(R.id.imgFilterView)
             mTxtFilterName = itemView.findViewById(R.id.txtFilterName)
-            itemView.setOnClickListener{
-                    mFilterListener.onFilterSelected(mPairList[layoutPosition].second)
+            itemView.setOnClickListener {
+                mFilterListener.onFilterSelected(mPairList[layoutPosition].second)
 
             }
         }
     }
 
     private fun getBitmapFromAsset(context: Context, strName: String): Bitmap? {
-        val assetManager: AssetManager = context.getAssets()
+        val assetManager: AssetManager = context.assets
         var istr: InputStream? = null
         return try {
             istr = assetManager.open(strName)

@@ -7,10 +7,10 @@ import android.view.Surface
 import androidx.lifecycle.LiveData
 
 /**
-* Calculates closest 90-degree orientation to compensate for the device
-* rotation relative to sensor orientation, i.e., allows user to see camera
-* frames with the expected orientation.
-*/
+ * Calculates closest 90-degree orientation to compensate for the device
+ * rotation relative to sensor orientation, i.e., allows user to see camera
+ * frames with the expected orientation.
+ */
 class OrientationLiveData(
     context: Context,
     characteristics: CameraCharacteristics

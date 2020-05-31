@@ -15,7 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ja.burhanrashid52.photoeditor.PhotoEditor
-import kotlinx.android.synthetic.main.fragment_bottom_sticker_emoji_dialog.*
 
 
 class EmojiBSFragment : BottomSheetDialogFragment() {
@@ -42,12 +41,17 @@ class EmojiBSFragment : BottomSheetDialogFragment() {
             View.inflate(context, R.layout.fragment_bottom_sticker_emoji_dialog, null)
         dialog.setContentView(contentView)
         val params =
-            (contentView.getParent() as View).getLayoutParams() as CoordinatorLayout.LayoutParams
+            (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior
         if (behavior != null && behavior is BottomSheetBehavior<*>) {
             behavior.setBottomSheetCallback(mBottomSheetBehaviorCallback)
         }
-        (contentView.getParent() as View).setBackgroundColor(ContextCompat.getColor(context!!,R.color.semi_black_transparent))
+        (contentView.parent as View).setBackgroundColor(
+            ContextCompat.getColor(
+                context!!,
+                R.color.semi_black_transparent
+            )
+        )
         val rvEmoji: RecyclerView = contentView.findViewById(R.id.rvEmoji)
         val gridLayoutManager = GridLayoutManager(activity, 5)
         rvEmoji.layoutManager = gridLayoutManager
@@ -88,11 +92,11 @@ class EmojiBSFragment : BottomSheetDialogFragment() {
 
             init {
                 txtEmoji = itemView.findViewById(R.id.txtEmoji)
-                itemView.setOnClickListener{
-                        if (mEmojiListener != null) {
-                            mEmojiListener!!.onEmojiClick(emojisList[layoutPosition])
-                        }
-                        dismiss()
+                itemView.setOnClickListener {
+                    if (mEmojiListener != null) {
+                        mEmojiListener!!.onEmojiClick(emojisList[layoutPosition])
+                    }
+                    dismiss()
                 }
             }
         }

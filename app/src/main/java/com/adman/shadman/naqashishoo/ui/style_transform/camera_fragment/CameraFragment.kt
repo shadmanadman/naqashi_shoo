@@ -1,48 +1,35 @@
 package com.adman.shadman.naqashishoo.ui.style_transform.camera_fragment
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.graphics.ImageFormat
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CameraMetadata
-import android.hardware.camera2.CaptureRequest
-import android.hardware.camera2.CaptureResult
-import android.hardware.camera2.TotalCaptureResult
+import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.util.Size
-import android.view.LayoutInflater
-import android.view.Surface
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.adman.shadman.naqashishoo.utils.ImageUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.io.Closeable
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeoutException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 @SuppressWarnings("GoodTime")
 class CameraFragment : Fragment() {
@@ -158,8 +145,7 @@ class CameraFragment : Fragment() {
         relativeOrientation = OrientationLiveData(requireContext(), characteristics).apply {
             observe(
                 viewLifecycleOwner,
-                Observer {
-                        orientation ->
+                Observer { orientation ->
                     Log.d(TAG, "Orientation changed: $orientation")
                 }
             )
@@ -274,7 +260,10 @@ class CameraFragment : Fragment() {
 
                 // If the result is a JPEG file, update EXIF metadata with orientation info
                 if (output.extension == "jpg") {
-                    ImageUtils.setExifOrientation(output.absolutePath, result.orientation.toString())
+                    ImageUtils.setExifOrientation(
+                        output.absolutePath,
+                        result.orientation.toString()
+                    )
                 }
 
                 // Display the photo taken to user
@@ -295,7 +284,8 @@ class CameraFragment : Fragment() {
 
         // Flush any images left in the image reader
         @Suppress("ControlFlowWithEmptyBody")
-        while (imageReader.acquireNextImage() != null) {}
+        while (imageReader.acquireNextImage() != null) {
+        }
 
         // Start a new image queue
         val imageQueue = ArrayBlockingQueue<Image>(IMAGE_BUFFER_SIZE)
@@ -351,7 +341,8 @@ class CameraFragment : Fragment() {
                             val rotation = relativeOrientation.value ?: 0
                             val mirrored = characteristics.get(CameraCharacteristics.LENS_FACING) ==
                                     CameraCharacteristics.LENS_FACING_FRONT
-                            val exifOrientation = ImageUtils.computeExifOrientation(rotation, mirrored)
+                            val exifOrientation =
+                                ImageUtils.computeExifOrientation(rotation, mirrored)
 
                             // Build the result and resume progress
                             cont.resume(

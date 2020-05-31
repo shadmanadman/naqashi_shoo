@@ -8,7 +8,7 @@ import io.github.inflationx.viewpump.ViewPump
 
 class Applications : Application() {
 
-    companion object{
+    companion object {
         private var INSTANCE: Applications? = null
         var context: Context? = null
     }

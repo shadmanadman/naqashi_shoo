@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.adman.shadman.naqashishoo.R
 
 
-class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected, private val mContext: Context) :
+class EditingToolsAdapter(
+    private val mOnItemSelected: OnItemSelected,
+    private val mContext: Context
+) :
     RecyclerView.Adapter<EditingToolsAdapter.ViewHolder>() {
     private val mToolList: MutableList<ToolModel> =
         ArrayList()
@@ -23,9 +25,10 @@ class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected, private v
     class ToolModel(
         val mToolName: String,
         val mToolIcon: Int,
-         toolType: ToolType
+        toolType: ToolType
     ) {
         val mToolType: ToolType
+
         init {
             mToolType = toolType
         }
@@ -61,16 +64,28 @@ class EditingToolsAdapter(private val mOnItemSelected: OnItemSelected, private v
         init {
             imgToolIcon = itemView.findViewById(R.id.imgToolIcon)
             txtTool = itemView.findViewById(R.id.txtTool)
-            itemView.setOnClickListener{
-                    mOnItemSelected.onToolSelected(mToolList[layoutPosition].mToolType)
+            itemView.setOnClickListener {
+                mOnItemSelected.onToolSelected(mToolList[layoutPosition].mToolType)
 
             }
         }
     }
 
     init {
-        mToolList.add(ToolModel(mContext.getString(R.string.label_brush), R.drawable.ic_brush, ToolType.BRUSH))
-        mToolList.add(ToolModel(mContext.getString(R.string.label_text), R.drawable.ic_text, ToolType.TEXT))
+        mToolList.add(
+            ToolModel(
+                mContext.getString(R.string.label_brush),
+                R.drawable.ic_brush,
+                ToolType.BRUSH
+            )
+        )
+        mToolList.add(
+            ToolModel(
+                mContext.getString(R.string.label_text),
+                R.drawable.ic_text,
+                ToolType.TEXT
+            )
+        )
         mToolList.add(
             ToolModel(
                 mContext.getString(R.string.label_eraser),

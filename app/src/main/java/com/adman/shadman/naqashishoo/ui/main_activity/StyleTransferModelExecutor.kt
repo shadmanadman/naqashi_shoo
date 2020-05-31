@@ -66,7 +66,8 @@ class StyleTransferModelExecutor(
                 ImageUtils.bitmapToByteBuffer(contentImage, CONTENT_IMAGE_SIZE, CONTENT_IMAGE_SIZE)
             val styleBitmap =
                 ImageUtils.loadBitmapFromResources(context, "thumbnails/$styleImageName")
-            val input = ImageUtils.bitmapToByteBuffer(styleBitmap, STYLE_IMAGE_SIZE, STYLE_IMAGE_SIZE)
+            val input =
+                ImageUtils.bitmapToByteBuffer(styleBitmap, STYLE_IMAGE_SIZE, STYLE_IMAGE_SIZE)
 
             val inputsForPredict = arrayOf<Any>(input)
             val outputsForPredict = HashMap<Int, Any>()

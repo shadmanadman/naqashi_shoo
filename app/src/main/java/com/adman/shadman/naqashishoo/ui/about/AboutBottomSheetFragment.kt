@@ -10,11 +10,12 @@ import com.adman.shadman.naqashishoo.databinding.BottomSheetAboutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class AboutBottomSheetFragment :BottomSheetDialogFragment(){
+class AboutBottomSheetFragment : BottomSheetDialogFragment() {
 
 
     fun newInstance(): AboutBottomSheetFragment =
         AboutBottomSheetFragment()
+
     private lateinit var binding: BottomSheetAboutBinding
 
     override fun onCreateView(
@@ -22,9 +23,12 @@ class AboutBottomSheetFragment :BottomSheetDialogFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=BottomSheetAboutBinding.inflate(layoutInflater)
+        binding = BottomSheetAboutBinding.inflate(layoutInflater)
         binding.appSource.setOnClickListener {
-            val browse = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shadmanadman/naqashi_shoo"))
+            val browse = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://github.com/shadmanadman/naqashi_shoo")
+            )
             startActivity(browse)
         }
         return binding.root

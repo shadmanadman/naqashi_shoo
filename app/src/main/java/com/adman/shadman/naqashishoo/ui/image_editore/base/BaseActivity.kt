@@ -1,12 +1,9 @@
 package com.adman.shadman.naqashishoo.ui.image_editore.base
 
-import android.R
 import android.app.ProgressDialog
 import android.content.pm.PackageManager
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,8 +13,8 @@ import kotlinx.android.synthetic.main.activity_image_editor.*
 
 
 open class BaseActivity : AppCompatActivity() {
-    var editImageActivity:EditImageActivity?=null
-     var mProgressDialog: ProgressDialog? = null
+    var editImageActivity: EditImageActivity? = null
+    var mProgressDialog: ProgressDialog? = null
     fun requestPermission(permission: String): Boolean {
         val isGranted =
             ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
@@ -52,7 +49,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-     fun showLoading(message: String) {
+    fun showLoading(message: String) {
         mProgressDialog = ProgressDialog(this)
         mProgressDialog!!.setMessage(message)
         mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
@@ -60,14 +57,14 @@ open class BaseActivity : AppCompatActivity() {
         mProgressDialog!!.show()
     }
 
-     fun hideLoading() {
+    fun hideLoading() {
         if (mProgressDialog != null) {
             mProgressDialog!!.dismiss()
         }
     }
 
-     fun showSnackbar(message: String) {
-            Snackbar.make(this.rootView, message, Snackbar.LENGTH_SHORT).show()
+    fun showSnackbar(message: String) {
+        Snackbar.make(this.rootView, message, Snackbar.LENGTH_SHORT).show()
 
     }
 
