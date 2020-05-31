@@ -8,6 +8,12 @@
     android:background="@color/edite_activity_background"
     tools:context=".ui.image_editore.EditImageActivity">
 
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"

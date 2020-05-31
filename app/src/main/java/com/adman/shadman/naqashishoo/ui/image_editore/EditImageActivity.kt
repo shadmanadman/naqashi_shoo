@@ -20,6 +20,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnticipateOvershootInterpolator
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -48,6 +49,10 @@ import com.adman.shadman.naqashishoo.ui.main_activity.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import ir.tapsell.plus.AdHolder
+import ir.tapsell.plus.AdRequestCallback
+import ir.tapsell.plus.AdShowListener
+import ir.tapsell.plus.TapsellPlus
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditor.OnSaveListener
@@ -60,6 +65,7 @@ import kotlinx.android.synthetic.main.activity_image_editor.*
 import java.io.File
 import java.io.IOException
 
+private const val ZONE_ID_NATIVE="5ed3686fa6c1cf0001fc1b3f"
 
 class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnClickListener,
     PropertiesBSFragment.Properties, EmojiListener,
@@ -79,6 +85,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
     private val mConstraintSet = ConstraintSet()
     private var mIsFilterVisible = false
     private var mProgressDialog: ProgressDialog? = null
+    private var adContainer:FrameLayout?=null
 
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
@@ -153,6 +160,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         mRvTools = findViewById(R.id.rvConstraintTools)
         mRvFilters = findViewById(R.id.rvFilterView)
         mRootView = findViewById(R.id.rootView)
+        adContainer=findViewById(R.id.adContainer)
         mFloatingActionButtonClose=findViewById(R.id.back)
         mFloatingActionButtonClose!!.setOnClickListener(this)
         imgUndo = findViewById(R.id.imgUndo)
@@ -170,6 +178,43 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
         imgShare = findViewById(R.id.imgShare)
         imgShare.setOnClickListener(this)
         mEditingToolsAdapter = EditingToolsAdapter(this,this)
+    }
+
+    private fun requestAd() {
+        TapsellPlus.requestInterstitial(
+            this,
+            ZONE_ID_NATIVE,
+            object : AdRequestCallback() {
+                override fun response() {
+                    showAd()
+                }
+
+                override fun error(message: String?) {
+                }
+            })
+    }
+
+    private fun showAd() {
+        val adHolder: AdHolder = TapsellPlus.createAdHolder(
+            this, adContainer, R.layout.native_banner
+        )
+        TapsellPlus.showAd(
+            this,
+            adHolder,
+            ZONE_ID_NATIVE,
+            object : AdShowListener() {
+                override fun onOpened() {
+                    hideLoading()
+                }
+
+                override fun onError(message: String?) {
+                    //error
+                }
+
+                override fun onClosed() {
+                    showSnackbar(getString(R.string.image_saved_succesfuly))
+                }
+            })
     }
 
     override fun onEditTextChangeListener(
@@ -288,8 +333,7 @@ class EditImageActivity : AppCompatActivity(), OnPhotoEditorListener, View.OnCli
                     saveSettings,
                     object : OnSaveListener {
                         override fun onSuccess(imagePath: String) {
-                            hideLoading()
-                            showSnackbar(getString(R.string.image_saved_succesfuly))
+                            requestAd()
                             mSaveImageUri = Uri.fromFile(File(imagePath))
                             mPhotoEditorView!!.source.setImageURI(mSaveImageUri)
                         }

@@ -7,6 +7,12 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.main_activity.MainActivity">
 
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ImageView
         android:id="@+id/result_imageview"
         android:layout_width="match_parent"

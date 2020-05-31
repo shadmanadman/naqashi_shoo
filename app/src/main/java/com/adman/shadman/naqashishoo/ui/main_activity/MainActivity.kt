@@ -2,7 +2,6 @@ package com.adman.shadman.naqashishoo.ui.main_activity
 
 import android.Manifest
 import android.app.Activity
-import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -43,6 +42,10 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import ir.tapsell.plus.AdHolder
+import ir.tapsell.plus.AdRequestCallback
+import ir.tapsell.plus.AdShowListener
+import ir.tapsell.plus.TapsellPlus
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.async
@@ -63,6 +66,8 @@ private val REQUIRED_PERMISSIONS =
     arrayOf(Manifest.permission.CAMERA)
 
 private const val TAG = "MainActivity"
+private const val TAPSELL_KEY="nmkambjlibmrllmreqtqhanigqqjdmjahagobjajnfsknledogohesnjlsfokicqksftqn"
+private const val ZONE_ID_NATIVE="5ed35dc9a6c1cf0001fc1b3b"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     OnListFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
@@ -81,6 +86,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     private val mainScope = MainScope()
     private var useGPU = false
     private var styleTransformDetails: String = ""
+    private var styleChangeCount=0
 
 
 
@@ -93,7 +99,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainBinding.inflate(layoutInflater)
-
+        TapsellPlus.initialize(this, TAPSELL_KEY);
         makeStatusBarColorTransparent(this)
 
         setupStylesRecyclerView()
@@ -155,7 +161,38 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         binding.navView.setNavigationItemSelectedListener(this)
     }
 
+    private fun requestAd() {
+        TapsellPlus.requestInterstitial(
+            this,
+            ZONE_ID_NATIVE,
+            object : AdRequestCallback() {
+                override fun response() {
+                    showAd()
+                }
 
+                override fun error(message: String?) {
+                }
+            })
+    }
+
+    private fun showAd() {
+        val adHolder: AdHolder = TapsellPlus.createAdHolder(
+            this, binding.activityMain.adContainer, R.layout.native_banner
+        )
+        TapsellPlus.showAd(
+            this,
+            adHolder,
+            ZONE_ID_NATIVE,
+            object : AdShowListener() {
+                override fun onOpened() {
+                    //ad opened
+                }
+
+                override fun onError(message: String?) {
+                    //error
+                }
+            })
+    }
 
 
     private fun saveImageSetup() { // بررسی دسترسی به حافظه
@@ -331,7 +368,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
 
     // شروع فرآیند تبدیل تصویر
     private fun startRunningModel() {
+        if (styleChangeCount>=4){
+            requestAd()
+            styleChangeCount=0
+        }
         if (!isRunningModel && lastSavedFile.isNotEmpty() && selectedStyle.isNotEmpty()) {
+            styleChangeCount++
             binding.activityMain.resultImageview.visibility = View.INVISIBLE
             binding.activityMain.progressBar.visibility = View.VISIBLE
             viewModel.onApplyStyle(
@@ -339,7 +381,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                 inferenceThread
             )
         } else {
-            Toast.makeText(this, "Previous Model still running", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.previes_model_still_running), Toast.LENGTH_SHORT).show()
         }
     }
 
