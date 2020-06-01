@@ -486,25 +486,14 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
         action = Intent.ACTION_SEND
         putExtra(
             Intent.EXTRA_TEXT,
-            "برنامه نقاشی‌شو برای تبدیل تصویر به نقاشی و ویرایش تصاویر \n https://cafebazaar.ir/app/?id=com.adman.shadman.naqashishoo"
+            "برنامه نقاشی‌شو برای تبدیل تصویر به نقاشی و ویرایش تصاویر \n myket://download/com.adman.shadman.naqashishoo"
         )
         type = "text/plain"
 
     }
-
     val rateUs: Intent = Intent().apply {
-        try {
-            action = Intent.ACTION_EDIT
-            data = Uri.parse("bazaar://details?id=" + "com.adman.shadman.naqashishoo")
-            setPackage("com.farsitel.bazaar")
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(
-                this@MainActivity.applicationContext,
-                getString(R.string.cafebazaar_not_installed),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
+            action = Intent.ACTION_VIEW
+            data = Uri.parse("myket://comment?id=com.adman.shadman.naqashishoo")
     }
 
     // انتخاب تصویر از گالری
@@ -682,7 +671,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished,
                 } catch (e: ActivityNotFoundException) {
                     Toast.makeText(
                         this@MainActivity.applicationContext,
-                        getString(R.string.cafebazaar_not_installed),
+                        getString(R.string.myket_not_installed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
